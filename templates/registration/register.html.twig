@@ -71,7 +71,7 @@
 								</div>
 							</div>
 							<div class="card-body">
-								<form role="form text-left">
+							{{ form_start(registrationForm) }}
 									<div class="mb-3">
 										<input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="email-addon">
 									</div>
@@ -93,7 +93,6 @@
 									<p class="text-sm mt-3 mb-0">Already have an account?
 										<a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a>	
 									</p>
-								</form>
                                 {{ form_end(registrationForm) }}
 							</div>
 						</div>
