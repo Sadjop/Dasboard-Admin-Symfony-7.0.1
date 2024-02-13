@@ -8,7 +8,7 @@
 
 1. Clonez le dépôt:
 
-```bash
+bash
 git clone https://github.com/Sadjop/admin_dash_sy.git
 
 2. Installez les dépendances:
