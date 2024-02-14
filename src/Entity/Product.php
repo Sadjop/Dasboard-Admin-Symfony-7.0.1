@@ -93,4 +93,19 @@ class Product
 
         return $this;
     }
+
+    #[ORM\Column(type: 'string')]
+    private string $imageFilename;
+
+    public function getimageFilename(): string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setimageFilename(string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
+
+        return $this;
+    }
 }
