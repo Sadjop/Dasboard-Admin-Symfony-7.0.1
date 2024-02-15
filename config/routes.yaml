@@ -7,3 +7,7 @@ controllers:
 login:
     path: /login
     controller: App\Controller\UserController::login
+
+error_access_denied:
+    path: /security/error_access_denied
+    controller: App\Controller\ErrorController::accessDenied
