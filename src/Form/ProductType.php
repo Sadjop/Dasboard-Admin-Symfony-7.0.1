@@ -41,8 +41,8 @@ class ProductType extends AbstractType
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                            'application/jpg',
-                            'application/png',
+                            'image/jpg',
+                            'image/png',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid Image',
                     ])

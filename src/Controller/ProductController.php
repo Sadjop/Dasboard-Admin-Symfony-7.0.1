@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 
-#[Route('/product')]
+#[Route('/admin/product')]
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
@@ -28,7 +28,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -37,7 +37,6 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('thumbnail_product')->getData();
-            dd($imageFile);
 
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
@@ -52,9 +51,10 @@ class ProductController extends AbstractController
                     $imageFile->move(
                         $this->getParameter('image_directory'),
                         $newFilename
+                        
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    echo $e->getMessage();
                 }
 
                 // updates the 'imageFilename' property to store the PDF file name
@@ -62,7 +62,8 @@ class ProductController extends AbstractController
                 $product->setimageFilename($newFilename);
             }
 
-            // ... persist the $product variable or any other work
+            $entityManager->persist($product);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_product_index');
         }
