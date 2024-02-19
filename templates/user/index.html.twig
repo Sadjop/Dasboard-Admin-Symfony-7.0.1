@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Username    </th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Password</th>
@@ -19,6 +20,7 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
@@ -27,11 +29,36 @@
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
+
+            						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<div class="numbers">
+											<p class="text-sm mb-0 text-capitalize font-weight-bold">{{ user.email }}</p>
+											<h5 class="font-weight-bolder mb-0">
+												{{ user.username }}
+											</h5>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+											<a href="{{ path('app_user_edit', {'id': user.id}) }}"><i class="ni ni-user-run text-lg opacity-10" aria-hidden="true">edit</i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                        <br>
+
+            
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
+
+        
         </tbody>
     </table>
 

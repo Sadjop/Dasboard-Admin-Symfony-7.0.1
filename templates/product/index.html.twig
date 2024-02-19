@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
-{% block title_breadcrumb %}Product index{% endblock %}
+{% block title %}Product index
+{% endblock %}
+{% block title_breadcrumb %}Product index
+{% endblock %}
 
 {% block body %}
 	<h1>Product index</h1>
@@ -10,12 +12,12 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Product_title</th>
-				<th>Product_description</th>
-				<th>Thumbnail_product</th>
-				<th>Product_create</th>
-				<th>Average_note</th>
-				<th>actions</th>
+				<th>Titre Produit</th>
+				<th>Description Produit</th>
+				<th>Date de création</th>
+				<th>Nom de l'image</th>
+				<th>Note globale</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,6 +34,38 @@
 						<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
 					</td>
 				</tr>
+
+				{# VUE CARTE  #}
+				<div class="card">
+					<div class="card-body p-3">
+						<div class="d-flex align-items-center">
+							<div class="col-8">
+								<div class="numbers">
+									<img src="{{ asset('uploads/thumbnail/' ~ product.imageFilename) }}" class="avatar">
+									<div class="ml-3">
+										<h5 class="font-weight-bolder mb-0">{{ product.productTitle }}</h5>
+										<p class="text-sm mb-0 text-capitalize font-weight-bold">
+											{{ product.productDescription }}
+										</p>
+										<p class="text-sm mb-0 text-capitalize font-weight-italic">
+											Créé le :
+											{{ product.productCreate ? product.productCreate|date('Y-m-d') : '' }}
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-4 text-end">
+								<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+									<a href="{{ path('app_product_edit', {'id': product.id}) }}">
+										<i class="ni ni-user-run text-lg opacity-10" aria-hidden="true">edit</i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+
 			{% else %}
 				<tr>
 					<td colspan="7">no records found</td>
