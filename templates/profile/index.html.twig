@@ -1,0 +1,12 @@
+{# templates/profile/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <h1>User Profile</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Roles: {{ user.roles|join(', ') }}</p>
+    {# Ajoutez d'autres informations du profil ici #}
+{% endblock %}
