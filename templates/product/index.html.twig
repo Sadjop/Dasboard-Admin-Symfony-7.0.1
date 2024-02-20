@@ -9,31 +9,35 @@
 	<h1>Product index</h1>
 
 	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Titre Produit</th>
-				<th>Description Produit</th>
-				<th>Date de création</th>
-				<th>Nom de l'image</th>
-				<th>Note globale</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
+		{% if is_granted('ROLE_ADMIN') %}
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Titre Produit</th>
+					<th>Description Produit</th>
+					<th>Date de création</th>
+					<th>Nom de l'image</th>
+					<th>Note globale</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+		{% endif %}
 		<tbody>
 			{% for product in products %}
-				<tr>
-					<td>{{ product.id }}</td>
-					<td>{{ product.productTitle }}</td>
-					<td>{{ product.productDescription }}</td>
-					<td>{{ product.productCreate ? product.productCreate|date('Y-m-d') : '' }}</td>
-					<td>{{ product.imageFilename }}</td>
-					<td>{{ product.averageNote }}</td>
-					<td>
-						<a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-						<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-					</td>
-				</tr>
+				{% if is_granted('ROLE_ADMIN') %}
+					<tr>
+						<td>{{ product.id }}</td>
+						<td>{{ product.productTitle }}</td>
+						<td>{{ product.productDescription }}</td>
+						<td>{{ product.productCreate ? product.productCreate|date('Y-m-d') : '' }}</td>
+						<td>{{ product.imageFilename }}</td>
+						<td>{{ product.averageNote }}</td>
+						<td>
+							<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+							<a href="{{ path('app_product_new') }}">Create new</a>
+						</td>
+					</tr>
+				{% endif %}
 
 				{# VUE CARTE  #}
 				<div class="card">
@@ -56,8 +60,8 @@
 							</div>
 							<div class="col-4 text-end">
 								<div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-									<a href="{{ path('app_product_edit', {'id': product.id}) }}">
-										<i class="ni ni-user-run text-lg opacity-10" aria-hidden="true">edit</i>
+									<a href="{{ path('app_product_show', {'id': product.id}) }}">
+										<i class="ni magnifier-face-worried text-lg opacity-10" aria-hidden="true">show</i>
 									</a>
 								</div>
 							</div>
@@ -72,7 +76,4 @@
 				</tr>
 			{% endfor %}
 		</tbody>
-	</table>
-
-	<a href="{{ path('app_product_new') }}">Create new</a>
-{% endblock %}
+	{% endblock %}

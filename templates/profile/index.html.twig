@@ -7,5 +7,11 @@
     <h1>User Profile</h1>
     <p>Username: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
-    {# Ajoutez d'autres informations du profil ici #}
+
+    <h2>Collection</h2>
+    <ul>
+        {% for item in collection %}
+            <li>{{ item.name }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -16,13 +16,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 
 
-#[Route('/admin/product')]
+
+
+#[Route('/product')]
 class ProductController extends AbstractController
 {
+    
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/index.html.twig',[
             'products' => $productRepository->findAll(),
         ]);
     }
