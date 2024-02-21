@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,6 +100,14 @@ class Product
     #[ORM\Column(type: 'string')]
     private string $imageFilename;
 
+    #[ORM\ManyToMany(targetEntity: Collections::class, mappedBy: 'Product')]
+    private Collection $collections;
+
+    public function __construct()
+    {
+        $this->collections = new ArrayCollection();
+    }
+
     public function getimageFilename(): string
     {
         return $this->imageFilename;
@@ -113,5 +123,32 @@ class Product
     public function __toString()
     {
         return $this->product_title;
+    }
+
+    /**
+     * @return Collection<int, Collections>
+     */
+    public function getCollections(): Collection
+    {
+        return $this->collections;
+    }
+
+    public function addCollection(Collections $collection): static
+    {
+        if (!$this->collections->contains($collection)) {
+            $this->collections->add($collection);
+            $collection->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollection(Collections $collection): static
+    {
+        if ($this->collections->removeElement($collection)) {
+            $collection->removeProduct($this);
+        }
+
+        return $this;
     }
 }
