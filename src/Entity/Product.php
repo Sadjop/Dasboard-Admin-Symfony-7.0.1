@@ -103,9 +103,13 @@ class Product
     #[ORM\ManyToMany(targetEntity: Collections::class, mappedBy: 'Product')]
     private Collection $collections;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'Product')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->collections = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getimageFilename(): string
@@ -147,6 +151,33 @@ class Product
     {
         if ($this->collections->removeElement($collection)) {
             $collection->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removeProduct($this);
         }
 
         return $this;
