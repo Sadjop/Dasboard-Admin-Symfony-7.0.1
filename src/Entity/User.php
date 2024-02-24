@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,6 +34,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
+
+    #[ORM\OneToMany(targetEntity: Favlist::class, mappedBy: 'user')]
+    private Collection $favlists;
+
+    public function __construct()
+    {
+        $this->favlists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -111,6 +121,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favlist>
+     */
+    public function getFavlists(): Collection
+    {
+        return $this->favlists;
+    }
+
+    public function addFavlist(Favlist $favlist): static
+    {
+        if (!$this->favlists->contains($favlist)) {
+            $this->favlists->add($favlist);
+            $favlist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavlist(Favlist $favlist): static
+    {
+        if ($this->favlists->removeElement($favlist)) {
+            // set the owning side to null (unless already changed)
+            if ($favlist->getUser() === $this) {
+                $favlist->setUser(null);
+            }
+        }
 
         return $this;
     }

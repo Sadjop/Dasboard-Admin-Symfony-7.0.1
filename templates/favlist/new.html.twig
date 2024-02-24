@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Favlist{% endblock %}
+
+{% block body %}
+    <h1>Create new Favlist</h1>
+
+    {{ include('favlist/_form.html.twig') }}
+
+    <a href="{{ path('app_favlist_index') }}">back to list</a>
+{% endblock %}
