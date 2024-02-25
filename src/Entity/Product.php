@@ -8,7 +8,8 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Favlist; // Add the missing import statement for the Favlist class
+use App\Entity\Favlist;
+use App\Entity\Comment;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -104,9 +105,13 @@ class Product
     #[ORM\ManyToMany(targetEntity: Favlist::class, mappedBy: 'product')]
     private Collection $favlists;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'product')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->favlists = new ArrayCollection();
+        $this->comments = new ArrayCollection();
 
     }
 
@@ -151,6 +156,36 @@ class Product
     {
         if ($this->favlists->removeElement($favlist)) {
             $favlist->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getProduct() === $this) {
+                $comment->setProduct(null);
+            }
         }
 
         return $this;

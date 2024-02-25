@@ -41,6 +41,24 @@
 		</tbody>
 	</table>
 
+
+
+<h2>Commentaires</h2>
+{{ form(comment_form)}}
+
+{# {% for comment in product.comments %}
+	<div class="comment">
+		<div class="row">
+			<div class="col-2">
+				<strong>{{ comment.author }}</strong>
+			</div>
+			<div class="col-10">
+				{{ comment.comment }}
+			</div>
+		</div>
+	</div>
+{% endfor %} #}
+
 	<a class="btn" href="{{ path('app_product_index') }}">Retour</a>
 
 	{% if is_granted('ROLE_ADMIN') %}
