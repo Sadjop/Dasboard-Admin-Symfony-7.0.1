@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FavlistRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FavlistRepository::class)]
@@ -16,8 +18,18 @@ class Favlist
     #[ORM\Column(length: 255)]
     private ?string $listName = null;
 
-    #[ORM\ManyToOne(inversedBy: 'favlists')]
+    #[ORM\ManyToOne(inversedBy: 'favlist')]
     private ?User $user = null;
+
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'favlist')]
+    private Collection $product;
+
+
+
+    public function __construct()
+    {
+        $this->product = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +56,30 @@ class Favlist
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProduct(): Collection
+    {
+        return $this->product;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->product->contains($product)) {
+            $this->product->add($product);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        $this->product->removeElement($product);
 
         return $this;
     }

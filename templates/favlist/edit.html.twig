@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Favlist{% endblock %}
+{% block title %}Edit Favlist
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Favlist</h1>
+	<h1>Edit Favlist</h1>
 
-    {{ include('favlist/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('favlist/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_favlist_index') }}">back to list</a>
+	<a href="{{ path('app_profile') }}">back to Profile</a>
 
-    {{ include('favlist/_delete_form.html.twig') }}
+	{{ include('favlist/_delete_form.html.twig') }}
 {% endblock %}

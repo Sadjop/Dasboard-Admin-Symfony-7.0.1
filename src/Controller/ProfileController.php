@@ -1,8 +1,9 @@
-<?php 
+<?php
 // src/Controller/ProfileController.php
 
 namespace App\Controller;
 
+use App\Entity\Favlist;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,13 +22,8 @@ class ProfileController extends AbstractController
 
         // Passer les informations de l'utilisateur à la vue
         return $this->render('profile/index.html.twig', [
-            'user' => $user,
-            'favlist' => $user->getFavlists(),
-        ]);   
-
-        // Passer les informations de l'utilisateur à la vue
-        return $this->render('profile/index.html.twig', [
-            'user' => $user,
+            'user'      => $user,
+            'favlist'   => $user->getFavlists(),
         ]);
     }
 }

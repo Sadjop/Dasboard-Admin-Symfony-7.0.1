@@ -21,28 +21,12 @@ class FavlistRepository extends ServiceEntityRepository
         parent::__construct($registry, Favlist::class);
     }
 
-//    /**
-//     * @return Favlist[] Returns an array of Favlist objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Favlist
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getUserFavlists()
+    {
+        return $this->createQueryBuilder('user')
+            ->leftJoin('user.favlists', 'favlist')
+            ->addSelect('favlist.products')
+            ->getQuery()
+            ->getResult();
+    }
 }

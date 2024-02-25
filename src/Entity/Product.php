@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -98,6 +100,14 @@ class Product
     #[ORM\Column(type: 'string')]
     private string $imageFilename;
 
+    #[ORM\ManyToMany(targetEntity: Favlist::class, mappedBy: 'product')]
+    private Collection $favlists;
+
+    public function __construct()
+    {
+        $this->favlists = new ArrayCollection();
+    }
+
     public function getimageFilename(): string
     {
         return $this->imageFilename;
@@ -113,5 +123,32 @@ class Product
     public function __toString()
     {
         return $this->product_title;
+    }
+
+    /**
+     * @return Collection<int, Favlist>
+     */
+    public function getFavlists(): Collection
+    {
+        return $this->favlists;
+    }
+
+    public function addFavlist(Favlist $favlist): static
+    {
+        if (!$this->favlists->contains($favlist)) {
+            $this->favlists->add($favlist);
+            $favlist->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavlist(Favlist $favlist): static
+    {
+        if ($this->favlists->removeElement($favlist)) {
+            $favlist->removeProduct($this);
+        }
+
+        return $this;
     }
 }

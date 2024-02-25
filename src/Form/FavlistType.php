@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Favlist;
+use App\Entity\Product;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,17 +16,28 @@ class FavlistType extends AbstractType
     {
         $builder
             ->add('listName')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
-        ;
+                    ->add('product', EntityType::class, [
+                        'class' => Product::class,
+                        'choice_label' => 'product_title',
+                        'multiple' => true,
+                        'expanded' => true,
+                    ]);
+
+
+                    // ->add('user', EntityType::class, [
+                    //     'class' => User::class,
+                    //     'choice_label' => 'id',
+                    //     'data' => $options['user'], 
+                    // ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Favlist::class,
-        ]);
-    }
+
+
+            public function configureOptions(OptionsResolver $resolver): void
+            {
+                $resolver->setDefaults([
+                    'data_class' => Favlist::class,
+                ]);
+            }
+
 }

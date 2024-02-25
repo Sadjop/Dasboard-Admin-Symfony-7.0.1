@@ -59,7 +59,7 @@ class FavlistController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_favlist_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('favlist/edit.html.twig', [
