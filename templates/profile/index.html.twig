@@ -14,14 +14,21 @@
 	<h2>Collections</h2>
 
 	{% for favlist in favlist %}
+
 		<h3>{{ favlist.listName }}</h3>
-		<a href="{{ path('app_favlist_edit', {'id': favlist.id}) }}">edit</a>
+
 		<ul>
 			{% for product in favlist.product %}
-				<img src="{{ asset('/uploads/thumbnail/' ~ product.imageFilename) }}">
-				<li>{{ product.productTitle }}</li>
-			{% endfor %}
-		</ul>
-	{% endfor %}
 
-{% endblock %}
+				<a href="{{ path('app_product_show', {'id': product.id}) }}" title="{{product.productTitle}}">
+					<img class="avatar" src="{{ asset('/uploads/thumbnail/' ~ product.imageFilename) }}">
+				</a>
+				<p{{product.productTitle}}</p>
+				{% endfor %}
+			</ul>
+
+			<a href="{{ path('app_favlist_edit', {'id': favlist.id}) }}">edit</a>
+
+		{% endfor %}
+
+	{% endblock %}
