@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Favlist; // Add the missing import statement for the Favlist class
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product

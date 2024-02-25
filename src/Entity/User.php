@@ -41,120 +41,117 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->favlists = new ArrayCollection();
+            $this->favlists = new ArrayCollection();
+        }
 
+        public function getId(): ?int
+        {
+            return $this->id;
+        }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+        public function getEmail(): ?string
+        {
+            return $this->email;
+        }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+        public function setEmail(string $email): static
+        {
+            $this->email = $email;
 
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
+            return $this;
+        }
 
-        return $this;
-    }
+        /**
+         * A visual identifier that represents this user.
+         *
+         * @see UserInterface
+         */
+        public function getUserIdentifier(): string
+        {
+            return (string) $this->email;
+        }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+        /**
+         * @see UserInterface
+         */
+        public function getRoles(): array
+        {
+            $roles = $this->roles;
+            // guarantee every user at least has ROLE_USER
+            $roles[] = 'ROLE_USER';
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+            return array_unique($roles);
+        }
 
-        return array_unique($roles);
-    }
+        public function setRoles(array $roles): static
+        {
+            $this->roles = $roles;
 
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
+            return $this;
+        }
 
-        return $this;
-    }
+        /**
+         * @see PasswordAuthenticatedUserInterface
+         */
+        public function getPassword(): string
+        {
+            return $this->password;
+        }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+        public function setPassword(string $password): static
+        {
+            $this->password = $password;
 
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
+            return $this;
+        }
 
-        return $this;
-    }
+        /**
+         * @see UserInterface
+         */
+        public function eraseCredentials(): void
+        {
+            // If you store any temporary, sensitive data on the user, clear it here
+            // $this->plainPassword = null;
+        }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+        public function getUsername(): ?string
+        {
+            return $this->username;
+        }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
+        public function setUsername(string $username): static
+        {
+            $this->username = $username;
 
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
+            return $this;
+        }
 
-        return $this;
-    }
+        /**
+         * @return Collection<int, Favlist>
+         */
+        public function getFavlists(): Collection
+        {
+            return $this->favlists;
+        }
 
-    /**
+        public function addFavlist(Favlist $favlist): static
+        {
+            if (!$this->favlists->contains($favlist)) {
+                $this->favlists->add($favlist);
+                $favlist->setUser($this);
+            }
 
-     * @return Collection<int, Favlist>
-     */
-    public function getFavlists(): Collection
-    {
-        return $this->favlists;
-    }
+            return $this;
+        }
+        public function removeFavlist(Favlist $favlist): static
+        {
+            if ($this->favlists->removeElement($favlist)) {
+                // set the owning side to null (unless already changed)
+                if ($favlist->getUser() === $this) {
+                    $favlist->setUser(null);
+                }
+            }
 
-    public function addFavlist(Favlist $favlist): static
-    {
-        if (!$this->favlists->contains($favlist)) {
-            $this->favlists->add($favlist);
-            $favlist->setUser($this);
-          
-     * @return Collection<int, Collections>
-     */
-    public function getCollections(): Collection
-    {
-        return $this->collections;
-    }
-
-        return $this;
-    }
-
-    public function removeFavlist(Favlist $favlist): static
-    {
-        if ($this->favlists->removeElement($favlist)) {
-            // set the owning side to null (unless already changed)
-            if ($favlist->getUser() === $this) {
-                $favlist->setUser(null);
+            return $this;
+        }
 }
