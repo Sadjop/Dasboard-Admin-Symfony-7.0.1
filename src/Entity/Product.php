@@ -106,6 +106,7 @@ class Product
     public function __construct()
     {
         $this->favlists = new ArrayCollection();
+
     }
 
     public function getimageFilename(): string
@@ -126,6 +127,7 @@ class Product
     }
 
     /**
+
      * @return Collection<int, Favlist>
      */
     public function getFavlists(): Collection
@@ -138,6 +140,7 @@ class Product
         if (!$this->favlists->contains($favlist)) {
             $this->favlists->add($favlist);
             $favlist->addProduct($this);
+
         }
 
         return $this;

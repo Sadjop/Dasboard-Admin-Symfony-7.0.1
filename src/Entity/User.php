@@ -35,13 +35,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+
     #[ORM\OneToMany(targetEntity: Favlist::class, mappedBy: 'user')]
     private Collection $favlists;
 
     public function __construct()
     {
         $this->favlists = new ArrayCollection();
-    }
+
 
     public function getId(): ?int
     {
@@ -126,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+
      * @return Collection<int, Favlist>
      */
     public function getFavlists(): Collection
@@ -138,7 +140,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->favlists->contains($favlist)) {
             $this->favlists->add($favlist);
             $favlist->setUser($this);
-        }
+          
+     * @return Collection<int, Collections>
+     */
+    public function getCollections(): Collection
+    {
+        return $this->collections;
+    }
 
         return $this;
     }
@@ -149,9 +157,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($favlist->getUser() === $this) {
                 $favlist->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

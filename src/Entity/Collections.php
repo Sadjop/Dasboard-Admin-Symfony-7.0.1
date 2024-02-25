@@ -18,15 +18,15 @@ class Collections
     #[ORM\Column(length: 255)]
     private ?string $collection_name = null;
 
-    #[ORM\ManyToMany(targetEntity: product::class, inversedBy: 'collections')]
-    private Collection $collection_product;
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'collections')]
+    private Collection $Product;
 
     #[ORM\ManyToOne(inversedBy: 'collections')]
-    private ?user $collection_user = null;
+    private ?User $User = null;
 
     public function __construct()
     {
-        $this->collection_product = new ArrayCollection();
+        $this->Product = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,37 +47,37 @@ class Collections
     }
 
     /**
-     * @return Collection<int, product>
+     * @return Collection<int, Product>
      */
-    public function getCollectionProduct(): Collection
+    public function getProduct(): Collection
     {
-        return $this->collection_product;
+        return $this->Product;
     }
 
-    public function addCollectionProduct(product $collectionProduct): static
+    public function addProduct(Product $product): static
     {
-        if (!$this->collection_product->contains($collectionProduct)) {
-            $this->collection_product->add($collectionProduct);
+        if (!$this->Product->contains($product)) {
+            $this->Product->add($product);
         }
 
         return $this;
     }
 
-    public function removeCollectionProduct(product $collectionProduct): static
+    public function removeProduct(Product $product): static
     {
-        $this->collection_product->removeElement($collectionProduct);
+        $this->Product->removeElement($product);
 
         return $this;
     }
 
-    public function getCollectionUser(): ?user
+    public function getUser(): ?User
     {
-        return $this->collection_user;
+        return $this->User;
     }
 
-    public function setCollectionUser(?user $collection_user): static
+    public function setUser(?User $User): static
     {
-        $this->collection_user = $collection_user;
+        $this->User = $User;
 
         return $this;
     }
