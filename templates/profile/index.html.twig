@@ -1,17 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Profile
+{% endblock %}
 
 {% block body %}
 
-    <h1>User Profile</h1>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
+	<h1>User Profile</h1>
+	<p>Username:
+		{{ user.username }}</p>
+	<p>Email:
+		{{ user.email }}</p>
 
-    <h2>Collection</h2>
-    <ul>
-        {% for item in collection %}
-            <li>{{ item.name }}</li>
-        {% endfor %}
-    </ul>
-{% endblock %}
+	<h2>Collections</h2>
+
+	{% for favlist in favlist %}
+
+		<h3>{{ favlist.listName }}</h3>
+
+		<ul>
+			{% for product in favlist.product %}
+
+				<a href="{{ path('app_product_show', {'id': product.id}) }}" title="{{product.productTitle}}">
+					<img class="avatar" src="{{ asset('/uploads/thumbnail/' ~ product.imageFilename) }}">
+				</a>
+				<p{{product.productTitle}}</p>
+				{% endfor %}
+			</ul>
+
+			<a href="{{ path('app_favlist_edit', {'id': favlist.id}) }}">edit</a>
+
+		{% endfor %}
+
+	{% endblock %}

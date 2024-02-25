@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favlist{% endblock %}
+
+{% block body %}
+    <h1>Favlist</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ favlist.id }}</td>
+            </tr>
+            <tr>
+                <th>ListName</th>
+                <td>{{ favlist.listName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_favlist_index') }}">back to list</a>
+
+    <a href="{{ path('app_favlist_edit', {'id': favlist.id}) }}">edit</a>
+
+    {{ include('favlist/_delete_form.html.twig') }}
+{% endblock %}

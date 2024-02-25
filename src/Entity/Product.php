@@ -100,12 +100,13 @@ class Product
     #[ORM\Column(type: 'string')]
     private string $imageFilename;
 
-    #[ORM\ManyToMany(targetEntity: Collections::class, mappedBy: 'Product')]
-    private Collection $collections;
+    #[ORM\ManyToMany(targetEntity: Favlist::class, mappedBy: 'product')]
+    private Collection $favlists;
 
     public function __construct()
     {
-        $this->collections = new ArrayCollection();
+        $this->favlists = new ArrayCollection();
+
     }
 
     public function getimageFilename(): string
@@ -126,27 +127,29 @@ class Product
     }
 
     /**
-     * @return Collection<int, Collections>
+
+     * @return Collection<int, Favlist>
      */
-    public function getCollections(): Collection
+    public function getFavlists(): Collection
     {
-        return $this->collections;
+        return $this->favlists;
     }
 
-    public function addCollection(Collections $collection): static
+    public function addFavlist(Favlist $favlist): static
     {
-        if (!$this->collections->contains($collection)) {
-            $this->collections->add($collection);
-            $collection->addProduct($this);
+        if (!$this->favlists->contains($favlist)) {
+            $this->favlists->add($favlist);
+            $favlist->addProduct($this);
+
         }
 
         return $this;
     }
 
-    public function removeCollection(Collections $collection): static
+    public function removeFavlist(Favlist $favlist): static
     {
-        if ($this->collections->removeElement($collection)) {
-            $collection->removeProduct($this);
+        if ($this->favlists->removeElement($favlist)) {
+            $favlist->removeProduct($this);
         }
 
         return $this;

@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`User`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -35,13 +35,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\OneToMany(targetEntity: Collections::class, mappedBy: 'User')]
-    private Collection $collections;
+
+    #[ORM\OneToMany(targetEntity: Favlist::class, mappedBy: 'user')]
+    private Collection $favlists;
 
     public function __construct()
     {
-        $this->collections = new ArrayCollection();
-    }
+        $this->favlists = new ArrayCollection();
+
 
     public function getId(): ?int
     {
@@ -126,6 +127,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+
+     * @return Collection<int, Favlist>
+     */
+    public function getFavlists(): Collection
+    {
+        return $this->favlists;
+    }
+
+    public function addFavlist(Favlist $favlist): static
+    {
+        if (!$this->favlists->contains($favlist)) {
+            $this->favlists->add($favlist);
+            $favlist->setUser($this);
+          
      * @return Collection<int, Collections>
      */
     public function getCollections(): Collection
@@ -133,25 +148,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->collections;
     }
 
-    public function addCollection(Collections $collection): static
-    {
-        if (!$this->collections->contains($collection)) {
-            $this->collections->add($collection);
-            $collection->setUser($this);
-        }
-
         return $this;
     }
 
-    public function removeCollection(Collections $collection): static
+    public function removeFavlist(Favlist $favlist): static
     {
-        if ($this->collections->removeElement($collection)) {
+        if ($this->favlists->removeElement($favlist)) {
             // set the owning side to null (unless already changed)
-            if ($collection->getUser() === $this) {
-                $collection->setUser(null);
-            }
-        }
-
-        return $this;
-    }
+            if ($favlist->getUser() === $this) {
+                $favlist->setUser(null);
 }

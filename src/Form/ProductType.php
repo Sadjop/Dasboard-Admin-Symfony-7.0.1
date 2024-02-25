@@ -41,14 +41,12 @@ class ProductType extends AbstractType
                     new File([
                         'maxSize' => '10M',
                         'mimeTypes' => [
-                            'image/jpg',
-                            'image/png',
+                            'image/*',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid Image',
                     ])
-                ],
-            ])
-        ;
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

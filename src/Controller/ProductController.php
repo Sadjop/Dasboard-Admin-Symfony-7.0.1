@@ -60,7 +60,7 @@ class ProductController extends AbstractController
                     echo $e->getMessage();
                 }
 
-                // updates the 'imageFilename' property to store the PDF file name
+                // updates the 'imageFilename' property to store the image file name
                 // instead of its contents
                 $product->setimageFilename($newFilename);
             }
